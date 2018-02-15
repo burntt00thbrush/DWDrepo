@@ -1,7 +1,7 @@
 //requiring config.js as username and password of mongo database are in the
 //config.js file which is listed in the gitingore 
 
-var user = require("./config.js");
+var user = require('./config.js');
 console.log(user.username + user.password);
 
 var mongojs = require('mongojs');
@@ -72,10 +72,10 @@ app.get('/display', function(req, res) {
   }
   else {
 
-    res.render('display.ejs', {'youtube_videos':submissions_array});
-    for (var i = 0; i < saved.length; i++) {
-      console.log(saved[i]);
-  }    
+    res.render('display.ejs', {youtube_videos:saved});
+  //   for (var i = 0; i < saved.length; i++) {
+  //     console.log(saved[i]);
+  // }    
   }
 });   
     
