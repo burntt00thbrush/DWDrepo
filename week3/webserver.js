@@ -1,70 +1,97 @@
+//requiring config.js as username and password of mongo database are in the
+//config.js file which is listed in the gitingore 
+
+var user = require("./config.js");
+console.log(user.username + user.password);
+
+var mongojs = require('mongojs');
+
+console.log("lets hope for the best");
+var db = mongojs(user.username+":"+user.password+"@ds229878.mlab.com:29878/dynamicbase?authSource=admin", ["submissions"]);
+console.log("yay it worked");
+
 var express = require('express')
 var app = express()
 
-//config so that 'public' folder will be served
+
+app.set('view engine', 'ejs');
+
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true }); // for parsing form data
+app.use(urlencodedParser); 
+
 app.use(express.static('public'));
 
-// app.get('/', function (req, res) {
-//   res.send('Hello World!!')
-// })
-
-var count = 0;
-
-var submissions = [];
+var submissions_array = [];
 
 
+//in this action request, /formpost is requested, and 
 app.get('/formpost', function (req, res) {
 	console.log("They submitted: " + req.query.textfield);
-	var htmlFormPost = `
-  <html>
-    <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-    <h3>deeply appreciated</h3>
-    <p><a href='/display'>see what others think about</a></p>
-    </body>
-  </html>
-  `;
-  res.send(htmlFormPost);
-  // save into an array
-submissions.push(req.query.textfield);
-	res.send("You submitted" );
-	submissions.push(req.query.textfield);
+  submissions_array.push(req.query.textfield);
+  res.redirect("/formpost.html");
+
+//this is the part o the server responsible for inserting/saving data into the mondo database
+  db.submissions.save({"submission":req.body.textfield}, 
+    function(err, saved) {
+      if( err || !saved ) console.log("Not saved");
+      else console.log("Saved");
+});
+
 })
 
-app.get('/display', function(req, res) {
-  var htmlDisplay = `
-  <html>
-    <head>
-    <link rel= "stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-    <h3> You have provided so many insights</h3> 
-`
-  ;
-	for (var i = 0; i < submissions.length; i++) {
-    var youtubeUrl = submissions[i]
+//this POST action makes it so that the url doesn't display 
+// whatever people have placed in the form value box 
+app.post('/formpost', function (req, res) {
+  console.log("They submitted: " + req.query.textfield);
+  submissions_array.push(req.query.textfield);
+  res.redirect("/formpost.html");
 
-    //I got help from Barak on the piece of code that includes slice and indexOf
-    //I was having issues with the embedding:
-    //I was getting errors in the console that looked like this
-    //Load denied by X-Frame-Options: does not permit cross-origin framing.
-    //Now the embedding permission is being received by youtube, when I was simply trying
-    //to parse in the youtube URLs being submitted. 
-
-    htmlDisplay+= "<iframe width=" + "\"420\" " + "height=" + "\"315\" " + 
-   "src=\" " + "https://www.youtube.com/embed/" + youtubeUrl.slice(youtubeUrl.indexOf("?v=") + 3) + "\" ></iframe>"; 
-
-
-	}
-  htmlDisplay += `
-    <p><a href='/form.html'>go again</a></p>
-    </body>
-    </html>
-  `;
-	res.send(htmlDisplay);
+//this is the part o the server responsible for inserting/saving data into the mondo database
+  db.submissions.save({"submission":req.body.textfield}, 
+    function(err, saved) {
+      if( err || !saved ) console.log("Not saved");
+      else console.log("Saved");
 });
+
+})
+  
+
+  //hello---if the page doens't need to be showing any data, there is no 
+  //no need for it to be displaying any data, so make the formpost an html file
+
+
+
+app.get('/display', function(req, res) {
+  //here I want to get the data and render the display page 
+
+  //pull records from the database
+  db.submissions.find({}, function(err, saved) {
+  if (err || !saved) {
+    console.log("No results");
+  }
+  else {
+
+    res.render('display.ejs', {'youtube_videos':submissions_array});
+    for (var i = 0; i < saved.length; i++) {
+      console.log(saved[i]);
+  }    
+  }
+});   
+    
+
+  
+ // db.submissions.find({}, function(err, saved) {
+ //    if (err || !saved) {
+ //        console.log("No results");
+ //      }
+ //      else {
+ //        console.log(saved);
+ //      res.render('display.ejs',{submissions_on_page:saved});
+ //      } 
+ //});
+
+})
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
