@@ -28,10 +28,11 @@
 				function() {
 					$('#getfortune').click(function() {
 						$.ajax({
-						  url: "http://fortunecookieapi.com/v1/fortunes?limit=10&skip=90&page=1",
+						  url: "http://fortunecookieapi.herokuapp.com/v1/fortunes/",
 						  dataType: 'json',
 						  success: function( result ) {
-						  	$('#result').html("The temp in NYC is: " + result.main.temp);
+						  	let number = Math.floor(Math.random()*result.length);
+						  	$('#result').html(result[number].message);
 						  },
 						  error: function(err) {
 						  	alert(err);
@@ -46,12 +47,20 @@
 	<header> 
 		
 		<marquee behavior="scroll" direction="left"> 
-			<pre>▄▄▄▄▄▄▄▄▄▄ Life today is in your hands▄▄▄▄▄▄▄▄▄▄</pre>
+			<pre>▄▄▄▄▄▄▄▄▄▄ LIFE TODAY IS IN YOUR HANDS ▄▄▄▄▄▄▄▄▄▄</pre>
 		</marquee>
 	</header>
 
 	<body>
-		<button id="getfortune">Make yo self feel better</button>
-		<div id="result"></div>
+		<br>
+	
+
+		<br>
+		<br>
+		<br>
+		<button id="getfortune">You are a better product of yourself</button>
+
+
+		<h1 id="result"></h1>
 	</body>
 </html>
