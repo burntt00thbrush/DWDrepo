@@ -18,3 +18,9 @@ Week 2 assignment:
 Build a simple Express application which takes in data from a form and outputs the results on an HTML page. An example might be a quote generator or a guestbook but feel free to build something of your own creation.
 
 https://tinyurl.com/y8sr5l9l
+
+
+
+Final Project Ideas:
+
+https://burntt00thbrush.tumblr.com/post/171165489781/final-for-dynamic-webz
