@@ -7,7 +7,7 @@ console.log(user.username + user.password);
 var mongojs = require('mongojs');
 
 console.log("lets hope for the best");
-var db = mongojs(user.username+":"+user.password+"@ds229878.mlab.com:29878/dynamicbase?authSource=admin", ["submissions"]);
+var db = mongojs(user.username+":"+user.password+"@ds229878.mlab.com:29878/dynamicbase", ["submissions"]);
 console.log("yay it worked");
 
 var express = require('express')
@@ -73,9 +73,9 @@ app.get('/display', function(req, res) {
   else {
 
     res.render('display.ejs', {youtube_videos:saved});
-  //   for (var i = 0; i < saved.length; i++) {
-  //     console.log(saved[i]);
-  // }    
+    for (var i = 0; i < saved.length; i++) {
+      console.log(saved[i]);
+  }    
   }
 });   
     
