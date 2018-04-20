@@ -1,0 +1,66 @@
+
+<html>
+	<head>
+	<meta charset= "UTF-8">
+	<title>usefule activity</title>
+
+	<style>
+	body {
+		width: 80%;
+		margin: 0 auto;
+		font-family: Courier;
+		padding-top: 60px;
+	}
+
+	header{
+		background:#1171911;
+		margin: 0 auto; 
+		border-bottom-style: dotted;
+	}
+
+</style>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+		<script type="text/javascript">
+		
+			$.getJSON 
+			$('document').ready(
+				function() {
+					$('#getfortune').click(function() {
+						$.ajax({
+						  url: "http://fortunecookieapi.herokuapp.com/v1/fortunes/",
+						  dataType: 'json',
+						  success: function( result ) {
+						  	let number = Math.floor(Math.random()*result.length);
+						  	$('#result').html(result[number].message);
+						  },
+						  error: function(err) {
+						  	alert(err);
+						  }
+						});		
+					});
+				}
+			);
+		</script>
+	</head>
+
+	<header> 
+		
+		<marquee behavior="scroll" direction="left"> 
+			<pre>▄▄▄▄▄▄▄▄▄▄ LIFE TODAY IS IN YOUR HANDS ▄▄▄▄▄▄▄▄▄▄</pre>
+		</marquee>
+	</header>
+
+	<body>
+		<br>
+	
+
+		<br>
+		<br>
+		<br>
+		<button id="getfortune">You are a better product of yourself</button>
+
+
+		<h1 id="result"></h1>
+	</body>
+</html>

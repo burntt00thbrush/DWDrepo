@@ -1,0 +1,42 @@
+body
+{
+  margin: 0;
+  padding: 0;
+  background: #e91e63;
+
+
+
+
+}
+
+h1
+{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'Shrikhand', cursive;
+  color: #fff:inherit;
+  font-size: 90px;
+
+
+}
+
+h2
+{
+  position: absolute;
+  top: 80%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'VT323', monospace;
+  color: #fff:inherit;
+  font-size: 90px;
+
+
+}
